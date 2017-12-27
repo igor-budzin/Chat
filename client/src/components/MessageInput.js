@@ -2,11 +2,20 @@ import React from 'react';
 
 export default class MessageInput extends React.Component {
 
+	onSubmit(event) {
+		event.preventDefault();
+		this.props.onMessageSubmit.call(this);
+		this.messInput.value = '';
+	}
+
 	render() {
 	    return (
 			<div className="message-input-wrap">
-				<form action="" onSubmit={this.props.onMessaegSubmit}>
-					<textarea onChange={this.props.onMessageText}></textarea>
+				<form action="" onSubmit={this.onSubmit.bind(this)}>
+					<textarea
+						onChange={this.props.onMessageText}
+						ref={(textarea) => { this.messInput = textarea; }}>
+					</textarea>
 					<button type="submit">Send</button>
 				</form>
 			</div>

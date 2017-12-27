@@ -9,13 +9,7 @@ export default class App extends React.Component {
 		this.state = {
 			messageText: '',
 			currentUser: 'Igor',
-			messageArray: [
-				{userName: "Igor", textMessage: "Test text", date: 1514236720633},
-				{userName: "Alex", textMessage: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.", date: 1514236720633},
-				{userName: "Alex", textMessage: "Hello, world", date: 1514236720633},
-				{userName: "Igor", textMessage: "Hello Alex, How are you?", date: 1514236720633},
-				{userName: "Alex", textMessage: "I'm fine, Thnaks.", date: 1514236720633}
-			]
+			messageArray: []
 		};
 		this.socket;
 	}
@@ -24,20 +18,29 @@ export default class App extends React.Component {
 		this.setState({messageText: event.target.value});
 	}
 
-	handleMessageSubmit(event) {
-		event.preventDefault();
+	handleMessageSubmit() {
 		if(this.state.messageText !== '') {
-			this.socket.emit('message', this.state.messageText);
+			this.socket.emit('sendMessage', this.state.messageText);
 		}
 	}
 
 	componentWillMount() {
 		this.socket = io.connect('http://localhost:1616');
-		this.socket.on('connected', function(msg) {
-        	console.log("socket connected");
+		const _socket = this.socket;
+
+		_socket.on('connected', function(msg) {
+			console.log("Socket connected");
+			_socket.emit('getMessageHistory');
     	});
 
-		this.socket.on('msg', (response) => {
+		_socket.on('history', (data) => {
+			console.log(data);
+			this.setState({
+				messageArray: data
+			});
+		});
+
+		_socket.on('message', (response) => {
 			const newMessageArray = this.state.messageArray;
 			newMessageArray.push(response);
 			this.setState({
@@ -57,7 +60,7 @@ export default class App extends React.Component {
 				/>
                 <MessageInput
 					onMessageText={this.handleMessageText.bind(this)}
-					onMessaegSubmit={this.handleMessageSubmit.bind(this)}
+					onMessageSubmit={this.handleMessageSubmit.bind(this)}
 				 />
             </div>
 	    );
