@@ -22,6 +22,9 @@ export default class App extends React.Component {
 		if(this.state.messageText !== '') {
 			this.socket.emit('sendMessage', this.state.messageText);
 		}
+		this.setState({
+			messageText: ''
+		});
 	}
 
 	componentWillMount() {

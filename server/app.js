@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 
 const port = 1616;
 const messageArray = [
-	{userName: "Igor", textMessage: "Test text", date: 1514236720633},
-	{userName: "Alex", textMessage: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.", date: 1514236720633},
-	{userName: "Alex", textMessage: "Hello, world", date: 1514236720633},
-	{userName: "Igor", textMessage: "Hello Alex, How are you?", date: 1514236720633},
-	{userName: "Alex", textMessage: "I'm fine, Thnaks.", date: 1514236720633}
+	// {userName: "Igor", textMessage: "Test text", date: 1514236720633},
+	// {userName: "Alex", textMessage: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.", date: 1514236720633},
+	// {userName: "Alex", textMessage: "Hello, world", date: 1514236720633},
+	// {userName: "Igor", textMessage: "Hello Alex, How are you?", date: 1514236720633},
+	// {userName: "Alex", textMessage: "I'm fine, Thnaks.", date: 1514236720633}
 ];
 
 (function() {
@@ -29,6 +30,9 @@ const messageArray = [
 		log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
 	}));
 })();
+
+mongoose.connect('mongodb://localhost:27017/Chat', {useMongoClient: true});
+mongoose.set('debug', true);
 
 app.use(bodyParser.json());
 

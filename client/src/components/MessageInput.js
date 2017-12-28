@@ -4,8 +4,10 @@ export default class MessageInput extends React.Component {
 
 	onSubmit(event) {
 		event.preventDefault();
-		this.props.onMessageSubmit.call(this);
-		this.messInput.value = '';
+		if(this.messInput.value !== '') {
+			this.props.onMessageSubmit.call(this);
+			this.messInput.value = '';
+		}
 	}
 
 	render() {
