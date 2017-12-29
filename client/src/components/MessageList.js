@@ -12,8 +12,9 @@ export default class MessageList extends React.Component {
 						return (
 							<Message
 								key={index}
-								user={message.userName == currentUser ? 'my' : ''}>
-								{message.textMessage}
+								user={message.user}
+								my={message.user == currentUser ? 'my' : ''}>
+								{message.text}
 							</Message>
 						)
 					})

@@ -5,6 +5,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 
+const messageModel = require('./models/message.model');
+
 const port = 1616;
 const messageArray = [
 	// {userName: "Igor", textMessage: "Test text", date: 1514236720633},
@@ -46,18 +48,23 @@ io.on('connection', function(socket){
 	socket.join('all');
 
 	socket.on('getMessageHistory', () => {
-		socket.emit("history", messageArray);
+		messageModel.find({}).sort({date: 1}).lean().exec((error, messages) => {
+			if(!error) socket.emit("history", messages);
+		});
 	});
 
 	socket.emit('connected', `you are connected to chat as`);
 	socket.on('sendMessage', function(message) {
 		let data = {
-			userName: 'Igor',
-			textMessage: message,
+			user: 'Igor',
+			text: message,
 			date: Date.now()
-		}
-		socket.emit('message', data);
-		socket.to('all').emit('message', data);
+		};
+		messageModel.create(data, (error) => {
+			if(error) return console.error('Message Model: ', error);
+			socket.emit('message', data);
+			socket.to('all').emit('message', data);
+		});
 	});
 });
 

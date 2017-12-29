@@ -41,6 +41,7 @@ body {
 .message-wrap {
     margin-bottom: 20px;
     @extend .clearfix;
+    
     .message {
         background-color: #efefef;
         padding: 10px 15px;
