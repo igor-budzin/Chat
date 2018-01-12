@@ -8,13 +8,6 @@ const bodyParser = require('body-parser');
 const messageModel = require('./models/message.model');
 
 const port = 1616;
-const messageArray = [
-	// {userName: "Igor", textMessage: "Test text", date: 1514236720633},
-	// {userName: "Alex", textMessage: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.", date: 1514236720633},
-	// {userName: "Alex", textMessage: "Hello, world", date: 1514236720633},
-	// {userName: "Igor", textMessage: "Hello Alex, How are you?", date: 1514236720633},
-	// {userName: "Alex", textMessage: "I'm fine, Thnaks.", date: 1514236720633}
-];
 
 (function() {
 	// Step 1: Create & configure a webpack compiler

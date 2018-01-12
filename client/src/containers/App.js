@@ -1,9 +1,11 @@
 import React from 'react';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import MessageList from '../components/MessageList';
+import MessageInput from '../components/MessageInput';
+import {sendMessage} from '../actions/messageActions';
 
-export default class App extends React.Component {
-
+class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -63,10 +65,23 @@ export default class App extends React.Component {
 				/>
                 <MessageInput
 					onMessageText={this.handleMessageText.bind(this)}
-					onMessageSubmit={this.handleMessageSubmit.bind(this)}
+					onMessageSubmit={this.props.sendMessage}
 				 />
             </div>
 	    );
 	}
-
 }
+
+function mapStateToProps(state) {
+	return {
+
+	}
+}
+
+mapDispatchToProps(dispatch) {
+	return {
+		sendMessage: bindActionCreators(sendMessage, dispatch)
+	}
+}
+
+export default connect(mapStateToProps)(App);

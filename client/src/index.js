@@ -1,20 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import axios from 'axios';
-import configureStore from './configureStore';
-import App from './components/App';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import configureStore from './store/configureStore';
+import App from './containers/App';
 import './assets/css/main.scss';
 
-let initialState = {
-
-};
-
-const store = configureStore(initialState);
-store.subscribe(() => {
-    console.log("Fire");
-});
-window.store = store;
+const store = configureStore({});
 
 ReactDOM.render(
     <Provider store={store}>
