@@ -1,8 +1,8 @@
-import SEND_MESSAGE from '../config/actionConstans';
+import {SEND_MESSAGE} from '../configs/actionConstans';
 
-export function sendMessage() {
+export function sendMessageAction(text) {
     return {
         type: SEND_MESSAGE,
-        payload: year
+        payload: text
     }
 }

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import MessageList from '../components/MessageList';
 import MessageInput from '../components/MessageInput';
-import {sendMessage} from '../actions/messageActions';
+import * as messageActions from '../actions/messageActions';
 
 class App extends React.Component {
 	constructor(props) {
@@ -78,10 +78,10 @@ function mapStateToProps(state) {
 	}
 }
 
-mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
 	return {
-		sendMessage: bindActionCreators(sendMessage, dispatch)
+		sendMessage: bindActionCreators(messageActions.sendMessageAction, dispatch)
 	}
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
