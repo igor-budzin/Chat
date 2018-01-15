@@ -1,4 +1,8 @@
-import {SEND_MESSAGE} from '../configs/actionConstans';
+import {
+    SOCKET_CONNECTION_REQUEST,
+    SOCKET_CONNECTION_SUCCESS,
+    SOCKET_CONNECTION_ERROR
+} from '../configs/actionConstans';
 
 const initialState = {
     loaded: false,
@@ -8,8 +12,8 @@ const initialState = {
 
 export default function messageReducer(state = initialState, action) {
     switch(action.type) {
-        case SEND_MESSAGE:
-        console.log("SEND_MESSAGE");
+        case 'dd':
+            // console.log(action);
             return state;
 
         default:

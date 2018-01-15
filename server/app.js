@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const messageModel = require('./models/message.model');
 
-const port = 1616;
+const port = 3001;
 
 (function() {
 	// Step 1: Create & configure a webpack compiler
@@ -35,13 +35,14 @@ app.get('/', (req, res) => {
 
 });
 
-io.on('connection', function(socket){
+io.on('connect', function(socket){
  	console.log('a user connected');
 
 	socket.join('all');
 
 	socket.on('getMessageHistory', () => {
 		messageModel.find({}).sort({date: 1}).lean().exec((error, messages) => {
+			console.log(messages);
 			if(!error) socket.emit("history", messages);
 		});
 	});

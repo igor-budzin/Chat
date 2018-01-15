@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import MessageList from '../components/MessageList';
 import MessageInput from '../components/MessageInput';
-import * as messageActions from '../actions/messageActions';
+import * as socketActions from '../actions/socketActions';
 
 class App extends React.Component {
 	constructor(props) {
@@ -30,29 +30,31 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		this.socket = io.connect('http://localhost:1616');
-		const _socket = this.socket;
-
-		_socket.on('connected', function(msg) {
-			console.log("Socket connected");
-			_socket.emit('getMessageHistory');
-    	});
-
-		_socket.on('history', (data) => {
-			console.log(data);
-			this.setState({
-				messageArray: data
-			});
-		});
-
-		_socket.on('message', (response) => {
-			const newMessageArray = this.state.messageArray;
-			newMessageArray.push(response);
-			this.setState({
-				messageArray: newMessageArray
-			});
-			console.log(this.state.messageArray);
-		});
+		this.props.socketConnection();
+		// this.props.getMessageHistory();
+		// this.socket = io.connect('http://localhost:1616');
+		// const _socket = this.socket;
+        //
+		// _socket.on('connected', function(msg) {
+		// 	console.log("Socket connected");
+		// 	_socket.emit('getMessageHistory');
+    	// });
+        //
+		// _socket.on('history', (data) => {
+		// 	console.log(data);
+		// 	this.setState({
+		// 		messageArray: data
+		// 	});
+		// });
+        //
+		// _socket.on('message', (response) => {
+		// 	const newMessageArray = this.state.messageArray;
+		// 	newMessageArray.push(response);
+		// 	this.setState({
+		// 		messageArray: newMessageArray
+		// 	});
+		// 	console.log(this.state.messageArray);
+		// });
 
 	}
 
@@ -80,7 +82,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		sendMessage: bindActionCreators(messageActions.sendMessageAction, dispatch)
+		socketConnection: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
+		getMessageHistory: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
 	}
 }
 

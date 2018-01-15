@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 
-// Example conf. You can move this to your config file.
 const host = 'http://localhost:1616';
 const socketPath = '/api/socket.io';
 
@@ -8,6 +7,7 @@ export default class socketAPI {
     socket;
 
     connect() {
+        console.log("try connection");
         this.socket = io.connect(host);
         return new Promise((resolve, reject) => {
             this.socket.on('connect', () => resolve());
@@ -24,7 +24,8 @@ export default class socketAPI {
         });
     }
 
-    emit(event, data) {
+    emit(event, data, callback) {
+        console.log(emit);
         return new Promise((resolve, reject) => {
             if (!this.socket) return reject('No socket connection.');
             return this.socket.emit(event, data, (response) => {
@@ -33,7 +34,8 @@ export default class socketAPI {
                     console.error(response.error);
                     return reject(response.error);
                 }
-                return resolve();
+
+                return resolve(callback.call(null));
             });
         });
     }

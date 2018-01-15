@@ -1,31 +1,34 @@
- export default function socketMiddleware(socket) {
+import {
+    SOCKET_CONNECTION_REQUEST,
+    SOCKET_CONNECTION_SUCCESS,
+    SOCKET_CONNECTION_ERROR
+} from '../configs/actionConstans';
+
+export default function socketMiddleware(socket) {
     return ({dispatch, getState}) => next => action => {
         if (typeof action === 'function') {
-            console.log("1111111111");
             return action(dispatch, getState);
         }
-        console.log("222222222");
         /*
         * Socket middleware usage.
         * promise: (socket) => socket.emit('MESSAGE', 'hello world!')
         * type: always 'socket'
-        * types: [REQUEST, SUCCESS, FAILURE]
+        * types: [SOCKET_CONNECTION_REQUEST, SOCKET_CONNECTION_SUCCESS, SOCKET_CONNECTION_ERROR]
         */
-        const { promise, type, types, ...rest } = action;
+        const {promise, type, types, ...rest} = action;
 
         if (type !== 'socket' || !promise) {
             return next(action);
         }
 
-        const [REQUEST, SUCCESS, FAILURE] = types;
-        next({...rest, type: REQUEST});
+        next({...rest, type: SOCKET_CONNECTION_REQUEST});
 
         return promise(socket)
             .then((result) => {
-                return next({...rest, result, type: SUCCESS });
+                return next({...rest, result, type: SOCKET_CONNECTION_SUCCESS});
             })
             .catch((error) => {
-                return next({...rest, error, type: FAILURE });
+                return next({...rest, error, type: SOCKET_CONNECTION_ERROR});
             })
     };
  }
