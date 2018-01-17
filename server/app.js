@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const messageModel = require('./models/message.model');
 
-const port = 3001;
+const port = 1616;
 
 (function() {
 	// Step 1: Create & configure a webpack compiler
@@ -27,7 +27,7 @@ const port = 3001;
 })();
 
 mongoose.connect('mongodb://localhost:27017/Chat', {useMongoClient: true});
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 app.use(bodyParser.json());
 

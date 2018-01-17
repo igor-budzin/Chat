@@ -1,20 +1,14 @@
-import {
-    SOCKET_CONNECTION_REQUEST,
-    SOCKET_CONNECTION_SUCCESS,
-    SOCKET_CONNECTION_ERROR
-} from '../configs/actionConstans';
+import {HISTORY_MESSAGE_GET} from '../configs/actionConstans';
 
 const initialState = {
-    loaded: false,
-    message: 'Just created',
-    connected: false
+
 }
 
 export default function messageReducer(state = initialState, action) {
     switch(action.type) {
-        case 'dd':
-            // console.log(action);
-            return state;
+        case HISTORY_MESSAGE_GET:
+        console.log("HISTORY_MESSAGE_GET reducer - ", action);
+            return {...state, ...action.payload};
 
         default:
             return state;

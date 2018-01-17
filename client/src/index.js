@@ -13,7 +13,7 @@ const store = configureStore({}, socketClient);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <App storeObj={store} />
     </Provider>,
     document.getElementById('root')
 );

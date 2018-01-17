@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, subscribe} from 'redux';
 import MessageList from '../components/MessageList';
 import MessageInput from '../components/MessageInput';
 import * as socketActions from '../actions/socketActions';
+import * as messageActions from '../actions/messageActions';
 
 class App extends React.Component {
 	constructor(props) {
@@ -30,7 +31,13 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		this.props.socketConnection();
+		const storeObj = this.props.storeObj;
+
+		this.props.socketConnection().then(() => {
+			console.log(this.props.isSocket);
+			this.props.getMessageHistory().then(() => {console.log("Ok");})
+		})
+
 		// this.props.getMessageHistory();
 		// this.socket = io.connect('http://localhost:1616');
 		// const _socket = this.socket;
@@ -76,14 +83,14 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-
+		isSocket: state.socketReducer.isSocket
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		socketConnection: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
-		getMessageHistory: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
+		getMessageHistory: bindActionCreators(messageActions.getMessageHistory, dispatch)
 	}
 }
 

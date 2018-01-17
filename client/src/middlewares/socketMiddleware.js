@@ -20,7 +20,7 @@ export default function socketMiddleware(socket) {
         if (type !== 'socket' || !promise) {
             return next(action);
         }
-
+        
         next({...rest, type: SOCKET_CONNECTION_REQUEST});
 
         return promise(socket)
