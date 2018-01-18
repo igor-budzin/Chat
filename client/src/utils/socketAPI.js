@@ -24,21 +24,14 @@ export default class socketAPI {
     }
 
     emit(event, data) {
-        console.log("fdsfds");
         return new Promise((resolve, reject) => {
             if (!this.socket) return reject('No socket connection.');
-            console.log("Fdsfds");
             return this.socket.emit(event, data, (response) => {
-                console.log("2222222222");
                 // Response is the optional callback that you can use with socket.io in every request. See 1 above.
                 if (response.error) {
                     console.error(response.error);
                     return reject(response.error);
                 }
-                else {
-                    console.log("data", data);
-                }
-
                 return resolve();
             });
         });

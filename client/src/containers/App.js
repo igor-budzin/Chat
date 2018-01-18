@@ -35,7 +35,8 @@ class App extends React.Component {
 
 		this.props.socketConnection().then(() => {
 			console.log(this.props.isSocket);
-			this.props.getMessageHistory().then(() => {console.log("Ok");})
+			this.props.messageHistoryEmit();
+			this.props.messageHistoryOn();
 		})
 
 		// this.props.getMessageHistory();
@@ -90,7 +91,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		socketConnection: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
-		getMessageHistory: bindActionCreators(messageActions.getMessageHistory, dispatch)
+		messageHistoryEmit: bindActionCreators(socketActions.messageHistoryEmit, dispatch),
+		messageHistoryOn: bindActionCreators(socketActions.messageHistoryOn, dispatch)
 	}
 }
 
