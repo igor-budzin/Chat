@@ -27,7 +27,7 @@ const port = 1616;
 })();
 
 mongoose.connect('mongodb://localhost:27017/Chat', {useMongoClient: true});
-// mongoose.set('debug', true);
+mongoose.set('debug', true);
 
 app.use(bodyParser.json());
 

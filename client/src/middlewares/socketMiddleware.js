@@ -7,7 +7,7 @@ import {
 export default function socketMiddleware(socket) {
     return ({dispatch, getState}) => next => action => {
         if (typeof action === 'function') {
-            return action(dispatch, getState);
+            return action(dispatch, getState, socket);
         }
         /*
         * Socket middleware usage.
@@ -20,7 +20,7 @@ export default function socketMiddleware(socket) {
         if (type !== 'socket' || !promise) {
             return next(action);
         }
-        
+
         next({...rest, type: SOCKET_CONNECTION_REQUEST});
 
         return promise(socket)

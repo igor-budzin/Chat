@@ -11,8 +11,7 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			messageText: '',
-			currentUser: 'Igor',
-			messageArray: []
+			currentUser: 'Igor'
 		};
 		this.socket;
 	}
@@ -31,23 +30,8 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		const storeObj = this.props.storeObj;
-
-		this.props.socketConnection().then(() => {
-			console.log(this.props.isSocket);
-			this.props.messageHistoryEmit();
-			this.props.messageHistoryOn();
-		})
-
-		// this.props.getMessageHistory();
-		// this.socket = io.connect('http://localhost:1616');
-		// const _socket = this.socket;
-        //
-		// _socket.on('connected', function(msg) {
-		// 	console.log("Socket connected");
-		// 	_socket.emit('getMessageHistory');
-    	// });
-        //
+		this.props.socketConnection();
+		this.props.getMessageHistory();
 		// _socket.on('history', (data) => {
 		// 	console.log(data);
 		// 	this.setState({
@@ -66,11 +50,16 @@ class App extends React.Component {
 
 	}
 
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	nextProps.messageArray !== this.props.messageArray;
+	// }
+
 	render() {
+		console.log(this.props.messageArray);
 	    return (
             <div className="container">
                 <MessageList
-					messageArr={this.state.messageArray}
+					messageArr={this.props.messageArray}
 					currentUser={this.state.currentUser}
 				/>
                 <MessageInput
@@ -84,15 +73,14 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		isSocket: state.socketReducer.isSocket
+		messageArray: state.messageReducer.messageArray
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		socketConnection: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
-		messageHistoryEmit: bindActionCreators(socketActions.messageHistoryEmit, dispatch),
-		messageHistoryOn: bindActionCreators(socketActions.messageHistoryOn, dispatch)
+		getMessageHistory: bindActionCreators(messageActions.getMessageHistory, dispatch)
 	}
 }
 

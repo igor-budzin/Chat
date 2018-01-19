@@ -1,14 +1,14 @@
-import {SOCKET_MESSAGE_EMMIT, SOCKET_MESSAGE_ON} from '../configs/actionConstans';
+import {HISTORY_MESSAGE_GET} from '../configs/actionConstans';
 
 const initialState = {
-
+    messageArray: []
 }
 
 export default function messageReducer(state = initialState, action) {
     switch(action.type) {
-        case SOCKET_MESSAGE_ON:
-        console.log("SOCKET_MESSAGE_ON reducer - ", action);
-            return {...state, ...action.payload};
+        case HISTORY_MESSAGE_GET:
+            const messageArray = action.payload;
+            return Object.assign({}, state, {messageArray});
 
         default:
             return state;
