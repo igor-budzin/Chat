@@ -1,5 +1,6 @@
 // Message state
 export const HISTORY_MESSAGE_GET = 'HISTORY_MESSAGE_GET';
+export const NEW_MESSAGE_GET = 'NEW_MESSAGE_GET';
 
 // Sockets connection
 export const SOCKET_CONNECTION_REQUEST = 'SOCKET_CONNECTION_REQUEST';

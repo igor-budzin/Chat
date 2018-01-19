@@ -9,7 +9,7 @@ export default class MessageList extends React.Component {
 
 	render() {
 		const currentUser = this.props.currentUser;
-		console.log("Message List: ", this.props.messageArr);
+		console.log("List ", this.props.messageArr);
 		return (
 			<div className="message-list">
 				{

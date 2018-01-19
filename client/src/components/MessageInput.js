@@ -15,7 +15,6 @@ export default class MessageInput extends React.Component {
 			<div className="message-input-wrap">
 				<form action="" onSubmit={this.onSubmit.bind(this)}>
 					<textarea
-						onChange={this.props.onMessageText}
 						ref={(textarea) => { this.messInput = textarea; }}>
 					</textarea>
 					<button type="submit">Send</button>

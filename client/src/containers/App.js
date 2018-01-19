@@ -16,46 +16,16 @@ class App extends React.Component {
 		this.socket;
 	}
 
-	handleMessageText(event) {
-		this.setState({messageText: event.target.value});
-	}
-
-	handleMessageSubmit() {
-		if(this.state.messageText !== '') {
-			this.socket.emit('sendMessage', this.state.messageText);
-		}
-		this.setState({
-			messageText: ''
-		});
-	}
-
 	componentWillMount() {
-		this.props.socketConnection();
-		this.props.getMessageHistory();
-		// _socket.on('history', (data) => {
-		// 	console.log(data);
-		// 	this.setState({
-		// 		messageArray: data
-		// 	});
-		// });
-        //
-		// _socket.on('message', (response) => {
-		// 	const newMessageArray = this.state.messageArray;
-		// 	newMessageArray.push(response);
-		// 	this.setState({
-		// 		messageArray: newMessageArray
-		// 	});
-		// 	console.log(this.state.messageArray);
-		// });
-
+		this.props.socketConnection().then(() => {
+			this.props.getMessageHistory();
+		});
+		new Promise((res, rej) => {
+			this.props.onNewMessage();
+		})
 	}
-
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	nextProps.messageArray !== this.props.messageArray;
-	// }
 
 	render() {
-		console.log(this.props.messageArray);
 	    return (
             <div className="container">
                 <MessageList
@@ -63,7 +33,6 @@ class App extends React.Component {
 					currentUser={this.state.currentUser}
 				/>
                 <MessageInput
-					onMessageText={this.handleMessageText.bind(this)}
 					onMessageSubmit={this.props.sendMessage}
 				 />
             </div>
@@ -80,7 +49,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		socketConnection: bindActionCreators(socketActions.socketConnectionRequest, dispatch),
-		getMessageHistory: bindActionCreators(messageActions.getMessageHistory, dispatch)
+		getMessageHistory: bindActionCreators(messageActions.getMessageHistory, dispatch),
+		onNewMessage: bindActionCreators(messageActions.onNewMessage, dispatch),
+		sendMessage: bindActionCreators(messageActions.sendMessage, dispatch)
 	}
 }
 
